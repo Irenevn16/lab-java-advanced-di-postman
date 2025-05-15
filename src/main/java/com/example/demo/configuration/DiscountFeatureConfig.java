@@ -1,6 +1,8 @@
 package com.example.demo.configuration;
 
+import com.example.demo.services.DiscountService;
 import com.example.demo.services.EarlyDiscountService;
+import com.example.demo.services.NoDiscountService;
 import jdk.jfr.Category;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -13,18 +15,13 @@ public class DiscountFeatureConfig {
 
     @Bean
     @ConditionalOnProperty(name = "feature.earlybird.enabled", havingValue = "true")
-    public EarlyDiscountService earlyBirdDiscountService () {
+    public DiscountService earlyBirdDiscountService () {
         return new EarlyDiscountService();
     }
 
     @Bean
     @ConditionalOnProperty(name = "feature.earlybird.disabled", havingValue = "false", matchIfMissing = true)
-    public EarlyDiscountService earlyBirdDiscountServiceDisabled () {
-        return new EarlyDiscountService() {
-            @Override
-            public void noDiscount() {
-                System.out.println("There is no discount with that booking date");
-            }
-        };
+    public DiscountService noDiscountService() {
+        return new NoDiscountService();
     }
 }

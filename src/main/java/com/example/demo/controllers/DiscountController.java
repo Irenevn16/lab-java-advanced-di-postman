@@ -1,13 +1,13 @@
 package com.example.demo.controllers;
 
+import com.example.demo.services.DiscountService;
 import com.example.demo.services.EarlyDiscountService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.Date;
 
 @RestController
@@ -16,10 +16,24 @@ import java.util.Date;
 @RequestMapping("/api")
 public class DiscountController {
 
-    private final EarlyDiscountService earlyDiscountService;
+    private final DiscountService discountService;
 
     @GetMapping("/discount")
-    public int applyDiscount (@PathVariable Date eventDate, @PathVariable Date bookingDate) ´{
+    public String applyDiscount (@RequestParam String eventDate, @RequestParam String bookingDate) {
+        try {
+            LocalDate event = LocalDate.parse(eventDate);
+            LocalDate booking = LocalDate.parse(bookingDate);
+            int discount = discountService.calculateDiscount(event, booking);
+
+            if (discount > 0) {
+                return "You can apply to a " + discount + "% discount.";
+            } else {
+                return discountService.noDiscount();
+            }
+
+        } catch (DateTimeException e) {
+            return "Invalid date format, use : yyyy-MM-dd";
+        }
 
     }
 
