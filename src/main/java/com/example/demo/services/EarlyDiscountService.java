@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 
-@Service
-public class EarlyDiscountService implements DiscountService {
-    @Override
+//no poner service pq es bean personalizada
+public class EarlyDiscountService {
+
     public int calculateDiscount (LocalDate eventDate, LocalDate bookingDate) {
         long daysDifference = ChronoUnit.DAYS.between(bookingDate, eventDate);
 
@@ -21,8 +21,12 @@ public class EarlyDiscountService implements DiscountService {
             return 0;
         }
     }
-    @Override
+
     public String noDiscount() {
         return "Please check your booking date, you may apply to a discount";
     }
+
+
 }
+
+
