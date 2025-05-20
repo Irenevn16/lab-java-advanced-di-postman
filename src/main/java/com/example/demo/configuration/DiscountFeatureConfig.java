@@ -17,6 +17,11 @@ public class DiscountFeatureConfig {
     @Bean
     @ConditionalOnProperty(name = "feature.earlybird.enabled", havingValue = "false", matchIfMissing = true)
     public EarlyDiscountService noDiscountService() {
-        return new EarlyDiscountService();
+        return new EarlyDiscountService() {
+            @Override
+            public String noDiscount(){
+                return "Discounts are disabled.";
+            }
+        };
     }
 }
