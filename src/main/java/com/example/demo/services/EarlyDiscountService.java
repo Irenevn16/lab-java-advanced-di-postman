@@ -23,7 +23,7 @@ public class EarlyDiscountService {
     }
 
     public String noDiscount() {
-        return "Please check your booking date, you may apply to a discount";
+        return "There is no discount for the booking date selected.";
     }
 
 

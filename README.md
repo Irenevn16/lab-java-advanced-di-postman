@@ -68,17 +68,19 @@ Once you finish the assignment, submit a URL link to your repository or your pul
     - **URL:** `{{baseUrl}}/api/discount`
     - **Query Parameters:** Include parameters for `eventDate` and `bookingDate` (e.g., `eventDate=2025-06-30`, `bookingDate=2025-05-15`).
     - **Goal:** Verify that when `feature.earlybird.enabled` is `true`, the endpoint returns the correct discount message or value.
+    ![img.png](PositiveDiscount.png)
   - **Negative Test Request:**
     - Change the query parameters (e.g., booking closer to the event date) to test the edge cases, verifying that no discount is applied when appropriate.
-
+    ![img.png](NegativeDiscount.png)
 - **Add Scripts:**
 
   - **Pre-request Script:** (Optional) Log a message to indicate that the request is starting.
+  ![img.png](Pre-request.png)
   - **Post-response Script:** Write a script that validates:
     - The response status code.
     - That the response contains a discount value or message consistent with your business rules.
     - Optionally, log key output for debugging purposes.
-
+  ![img.png](Post-response.png)
 - **Run and Validate:**
   - Use the Postman Collection Runner to execute your requests.
   - Test both the positive (discount applied) and negative (no discount) scenarios by toggling the property `feature.earlybird.enabled` and by varying the query parameters.
@@ -90,11 +92,19 @@ Once you finish the assignment, submit a URL link to your repository or your pul
 Update your repository’s `README.md` to include:
 
 - A brief explanation of your design choices for the **EarlyBirdDiscountService**.
+Habiendo creado primero una interfaz de DiscountService, tuve luego que aunar los servicios en uno, tal como se pedía en el
+ejercicio. Usé tres posibilidades de valores, descuentos positivos del 15 y 10% y un descuento negativo(0). Si la propiedad estaba
+desconfigurada, ninguna opción sería posible.
 - Answers to:
   - Why did you choose constructor-based DI for this lab?
+Para garantizar que las dependencias estuvieran disponibles al llamar al objeto.
   - What advantages do Postman pre-request and post-response scripts offer for automated testing?
+Te permiten registrar y preparar datos antes de que se envíe la solicitud (pre-request). Los post-response validan de forma automática,
+y te ayudarían a detectar errores fácilmente.
   - How does your application behave when the early bird feature is disabled?
+El bean EarlyBirdDiscountService no cargaría, y el endpoint devolvería un error.
   - What are some challenges you faced when integrating advanced DI with API testing?
+Usar beans más avanzadas y tener en cuenta que al cambiar las propiedades debes reiniciar el servidor.
 
 <br />
 
